@@ -1,12 +1,8 @@
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
 
-var W = 300;
-var H = 600;
-
 var A2 = H / 20 * 7;
 var A1 = H / 20 * 15;
-
 
 var clock = 0;
 var count = 0;
@@ -18,6 +14,7 @@ var intervalV;
 var speedN;
 var speedV;
 
+var level = document.getElementById('level');
 var counter = document.getElementById('counter');
 var pointer = document.getElementById('pointer');
 var speeder = document.getElementById('speeder');
@@ -48,7 +45,16 @@ function rand(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
-function area(y) {
+function areaX(x) {
+    if (x < (W / 3 * 1))
+        return CL;
+    else if (x < (W / 3 * 2))
+        return CM;
+    else
+        return CR;
+}
+
+function areaY(y) {
     if (y < A2 - 40)
         return 3;
     else if (y < A1 - 40)
@@ -76,7 +82,7 @@ function move() {
         });
 
         if (lastKey != null) {
-            get = objects[0].input(lastKey, area(objects[0].y));
+            get = objects[0].input(lastKey, areaY(objects[0].y));
 
             if (get == 0) {
                 end(f, 'miss');
@@ -109,6 +115,8 @@ function move() {
 function start() {
     modeN = document.location.search.substring(1).split(',')[0];
     speedN = document.location.search.substring(1).split(',')[1];
+    level.innerHTML = `${modeN}(${speedN})`;
+
     if (modeN == 'easy') {
         modeV = 8;
         intervalV = 160;
@@ -123,6 +131,11 @@ function start() {
     document.addEventListener('keydown', e => {
         if (lastKey == null) lastKey = e.keyCode;
     });
+    canvas.addEventListener('click', e => {
+        var x = e.clientX - e.target.getBoundingClientRect().left;
+
+        if (lastKey == null) lastKey = areaX(x);
+    }, false);
 
     move();
 }
@@ -130,7 +143,7 @@ function start() {
 function end(f, sound) {
     clearInterval(f);
     document.getElementById(`${sound}-sound`).play();
-    alert(`game over\n\n${modeN}(${speedN})\ncount: ${count}\npoint: ${point}`);
+    alert(`game over`);
 }
 
 start();

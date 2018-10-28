@@ -1,20 +1,8 @@
-var W = 300; // ummm...
-
-var CL = 37;
-var CR = 39;
-var CM = 40;
-var VL = 72;
-var VR = 76;
-var VM = 74;
-var EL = 66;
-var ER = 70;
-var EM = 78;
-
 class Object {
     constructor (value, lane, color) {
         this.value = value; this.lane = lane; this.color = color;
         this.image = new Image();
-        this.image.src = `./docs/image/${this.value}-${this.color}.png`;
+        this.image.src = `${ROOT}/image/${this.value}-${this.color}.png`;
         this.y = -100;
         switch (lane) {
             case 'L': this.x = W / 3 * 0 + 10; break;
