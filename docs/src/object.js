@@ -14,7 +14,7 @@ class Object {
     constructor (value, lane, color) {
         this.value = value; this.lane = lane; this.color = color;
         this.image = new Image();
-        this.image.src = `../image/${this.value}-${this.color}.png`;
+        this.image.src = `./docs/image/${this.value}-${this.color}.png`;
         this.y = -100;
         switch (lane) {
             case 'L': this.x = W / 3 * 0 + 10; break;
